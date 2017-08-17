@@ -1,0 +1,291 @@
+﻿<!--@{
+Layout = null;
+}-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="~/Assets/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Assets/Content/MyStyle/CustomStyleSheet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        body, h1, h2, h3, h4, h5, h6, .cwm-wide {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .cwm-sidebar a {
+            font-family: "Roboto", sans-serif;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: saddlebrown;
+                color: white;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                position: absolute;
+                z-index: 1;
+                top: 150%;
+                left: 50%;
+                margin-left: -60px;
+            }
+
+                .tooltip .tooltiptext::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: transparent transparent saddlebrown transparent;
+                }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+    </style>
+
+</head>
+<body class="cwm-content" style="max-width:1200px">
+    <div class="container">
+        <!--1 Row for Page-->
+        <div class="row">
+            <!--2 Columns for Page - Navigational and Main Area-->
+            <!--Column 1 - Navigation Bar Column -->
+
+            <nav class="cwm-sidebar cwm-bar-block cwm-top cwm-xlarge cwm-animate-left" style="position:fixed;display:none;z-index:2000;width:10%;min-width:200px; height: 100%; overflow-y:scroll" id="mySidebar">
+
+
+                <div class="cwm-container cwm-display-container cwm-padding-16">
+                    <i onclick="nav_close()" class="fa fa-remove cwm-button cwm-display-topright"></i>
+                    <h3 class="cwm-wide"><b>LOGO</b></h3>
+                </div>
+
+                <div class="cwm-padding-64 cwm-large w3-text-grey" style="font-weight:bold">
+                    <a href="#" class="cwm-bar-item cwm-button">CFW Series</a>
+                    <a href="#" class="cwm-bar-item cwm-button">CFAW Series</a>
+                    <a onclick="myAccFunc()" href="javascript:void(0)" class="cwm-button cwm-block w3-white cwm-left-align" id="myBtn">
+                        Collection <i class="fa fa-caret-down"></i>
+                    </a>
+                    <div id="demoAcc" class="cwm-bar-block cwm-hide cwm-padding-large cwm-medium">
+                        <a href="#" class="cwm-bar-item cwm-button w3-light-grey"><i class="fa fa-caret-right cwm-margin-right"></i>2017</a>
+                        <a href="#" class="cwm-bar-item cwm-button">2016</a>
+                        <a href="#" class="cwm-bar-item cwm-button">2015</a>
+                        <a href="#" class="cwm-bar-item cwm-button">2014</a>
+                    </div>
+                    <br />
+                    <a href="#" class="cwm-bar-item cwm-button">Straps</a>
+                    <a href="#" class="cwm-bar-item cwm-button">Parts</a>
+                    <a href="#" class="cwm-bar-item cwm-button">Tools</a>
+                    <a href="#" class="cwm-bar-item cwm-button">Accessories</a>
+                </div>
+                <a href="#footer" class="cwm-bar-item cwm-button cwm-padding">Contact</a>
+
+                <a href="javascript:void(0)" class="cwm-bar-item cwm-button cwm-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a>
+
+                <!--<a href="#" data-toggle="modal" data-target="#myModal">
+                <p>Newsletter</p>
+
+                </a>-->
+                <a href="#footer" class="cwm-bar-item cwm-button cwm-padding" style="margin-bottom: 100px">Subscribe</a>
+
+
+
+            </nav>
+
+            <!--Column 2 - Main Area Column-->
+
+
+
+            <div class="col-md-9" style="margin-left:250px">
+
+                <!-- Top header -->
+                <header class="cwm-container cwm-xlarge" @*style="position:fixed; background-color: gainsboro; z-index: 3000; width: 100%"*@>
+                    <p class="cwm-left">
+                        <div class="cwm-button cwm-left" onclick="nav_open()">☰</div>
+                    </p>
+                    <p class="cwm-right">@Html.Partial("_LoginPartial")</p>       
+                    <p class="cwm-right">
+                        <i class="fa fa-shopping-cart cwm-margin-right cwm-tooltip">
+                            <span class="cwm-tooltiptext">0 items</span>
+                        </i>
+                        <i class="fa fa-search"></i>
+                    </p>
+
+                </header>
+         <!--      </div>  -->
+                <div class="cwm-overlay cwm-hide-large" onclick="nav_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+                <br /><br /><br /><br />
+
+
+                <!--      <div class="cwm-overlay cwm-hide-large" onclick="nav_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+                    -->
+
+                <div class="cwm-display-container cwm-container">
+                    <img src="~/Assets/Images/3.jpg" alt="Watch" style="width:100%">
+                    <div class="cwm-display-topleft w3-text-white" style="padding:18px 48px">
+                        <h1 class="cwm-jumbo">New arrivals</h1>
+                        <h1>COLLECTION 2016</h1>
+                        <p><a href="#jeans" class="cwm-button w3-black cwm-padding-large cwm-large">SHOP NOW</a></p>
+                    </div>
+                </div>
+                <div class="cwm-container w3-text-grey" id="jeans"></div>
+
+
+
+                <div>
+                    <p>8 items</p>
+                </div>
+
+                <br /><br />
+                @RenderBody()
+                <!-- Subscribe section -->
+                <div class="cwm-container w3-black cwm-padding-32">
+                    <h1>Subscribe</h1>
+                    <p>To get special offers and <span style="color:red">VIP</span> treatment:</p>
+                    <p><input class="cwm-input cwm-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
+                    <button type="button" class="cwm-button w3-red cwm-margin-bottom">Subscribe</button>
+                </div>
+                <!--Contact & About & Store Box-->
+                <!-- Footer -->
+                <footer class="cwm-padding-64 w3-light-grey cwm-small cwm-center" id="footer">
+
+                    <div class="row">
+                        <!--Contact Column-->
+                        <div class="col-md-4">
+                            <div>
+                                <h2>Contact</h2>
+                                <p>Questions? Go ahead.</p><br /><br />
+                                <input class="cwm-input cwm-border" type="text" placeholder="Name" /><br /><br />
+                                <input class="cwm-input cwm-border" type="text" placeholder="E-mail" /><br /><br />
+                                <input class="cwm-input cwm-border" type="text" placeholder="Subject" /><br /><br />
+                                <input class="cwm-input cwm-border" type="text" placeholder="Message" /><br /><br />
+                                <button type="submit" class="cwm-button cwm-block w3-black">Send</button>
+                            </div>
+                        </div>
+                        <!--Contact Column END-->
+                        <!--About Column-->
+                        <div class="col-md-4">
+                            <div {text-align center;}>
+                                <h2>About</h2>
+                                <a href="#">About Us</a> <br /><br />
+                                <a href="#">We're Hiring</a><br /><br />
+                                <a href="#">Support</a><br /><br />
+                                <a href="#">Find Store</a><br /><br />
+                                <a href="#">Shipment</a><br /><br />
+                                <a href="#">Payment</a><br /><br />
+                                <a href="#">Gift Card</a><br /><br />
+                                <a href="#">Return</a><br /><br />
+                                <a href="#">Help</a>
+                            </div>
+                        </div>
+                        <!--About Column END-->
+                        <!--Store Column-->
+                        <div class="col-md-4 cwm-justify">
+                            <div>
+                                <h2>Store</h2>
+                                <p>&#169 Company Name</p>
+                                <p><i class="fa fa-fw fa-phone"></i> 0044123123</p>
+                                <p><i class="fa fa-fw fa-envelope"></i> ex@mail.com</p>
+                            </div>
+                            <div>
+                                <h2>We Accept</h2>
+                                <p><i class="fa fa-fw fa-cc-amex"></i> Amex</p>
+                                <p><i class="fa fa-fw fa-credit-card"></i> Credit Card</p>
+                                <br>
+                                <i class="fa fa-facebook-official w3-hover-opacity w3-large"></i>
+                                <i class="fa fa-instagram w3-hover-opacity w3-large"></i>
+                                <i class="fa fa-snapchat w3-hover-opacity w3-large"></i>
+                                <i class="fa fa-pinterest-p w3-hover-opacity w3-large"></i>
+                                <i class="fa fa-twitter w3-hover-opacity w3-large"></i>
+                                <i class="fa fa-linkedin w3-hover-opacity w3-large"></i>
+                            </div>
+                        </div>
+                </footer>
+                <!--Store Column END-->
+                <!--Contact & About & Store Box END-->
+                <!--CopyRight Box-->
+
+                <div class="w3-black cwm-center cwm-padding-24">Powered by <a href="https://www.coderfoundry.com" title="CoderFoundry" target="_blank" class="cwm-hover-opacity">CoderFoundry</a> &copy;Copyright CoderFoundry</div>
+
+
+                <!--CopyRight Box END-->
+
+            </div>
+            <!--Contact & About & Store Box END-->
+        </div>
+        <!--Column 2 - Main Area Column END-->
+    </div> <!--EndMainRow-->
+    </div>  <!--EndContainer-->
+    <!--Page END-->
+    <!-- Modal  -->
+    <div id="newsletter" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Newsletter</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Join our mailing list to receive updates on new arrivals and special offers.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="~/Assets/scripts/jquery-1.9.1.js"></script>
+    <script src="~/Assets/scripts/bootstrap.js"></script>
+    <script>
+
+        // Accordion
+        function myAccFunc() {
+            var x = document.getElementById("demoAcc");
+            if (x.className.indexOf("cwm-show") == -1) {
+                x.className += " cwm-show";
+            } else {
+                x.className = x.className.replace(" cwm-show", "");
+            };
+        };
+
+
+        // Click on the "Jeans" link on page load to open the accordion for demo purposes
+        document.getElementById("myBtn").click();
+
+
+        // Script to open and close sidebar
+        function nav_open() {
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("myOverlay").style.display = "block";
+        };
+
+        function nav_close() {
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("myOverlay").style.display = "none";
+        };
+
+    </script>
+
+
+@Scripts.Render("~/bundles/jquery")
+@*@Scripts.Render("~/bundles/bootstrap")*@
+@RenderSection("scripts", required: false)
+</body>
+</html>
