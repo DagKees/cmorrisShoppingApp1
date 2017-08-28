@@ -56,5 +56,6 @@ namespace cmorrisShoppingApp1.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CartItem> CartItems{ get; set; }
+        public object ItemTypes { get; internal set; }
     }
 }

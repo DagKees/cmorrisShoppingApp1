@@ -3,11 +3,9 @@
 .cwmtopleft{position:absolute;left:16px;top:0} 
 .cwmtag{background-color:#000;color:#fff;display:inline-block;padding-left:8px;padding-right:8px;text-align:center}
 
-/**#SubscribeId {
-    color: white;
-    style ="background-color:black";
-}*/
+
 .cwmhide-small{display:none!important}
+
 
 /*PseudoClass*/
 nav a:hover{

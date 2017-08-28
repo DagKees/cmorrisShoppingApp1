@@ -11,10 +11,9 @@ using cmorrisShoppingApp1.Models.CodeFirst;
 
 namespace cmorrisShoppingApp1.Controllers
 {
-    public class OrdersController : Controller
+    public class OrdersController : Universal
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Orders
         public ActionResult Index()
         {

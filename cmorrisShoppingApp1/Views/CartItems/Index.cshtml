@@ -4,9 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
+<h2>Shopping Cart</h2>
+@*@Html.HiddenFor(model => model.CreationDate)
+@Html.HiddenFor(model => model.CustomerId)
+@Html.HiddenFor(model => model.ItemId)*@
+@*<p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
@@ -24,28 +26,59 @@
             @Html.DisplayNameFor(model => model.CreationDate)
         </th>
         <th></th>
-    </tr>
+    </tr>*@
+<table class="table cwm-medium">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                
+                    <img class="pull-left media-object cwm-medium" src="@Url.Content(item.Item.MediaURL)" height="80" >
+</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Price)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Count)*@
+                @using (Html.BeginForm("Edit", "CartItems", new { id = item.Id }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input name="Id" type="hidden" value="@item.Id" />
+                        <input name="CreationDate" type="hidden" value="@item.CreationDate" />
+                        <input name="ItemId" type="hidden" value="@item.ItemId" />
+                        <input name="CustomerId" type="hidden" value="@item.CustomerId" />
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ItemId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Count)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                        <input name="Count" type="number" value="@item.Count" />
+                        <button type="Submit" class="btn btn-default">Update</button>
+                }
+            </td>
+            
+            <td>
+                @using (Html.BeginForm("Delete", "CartItems", new { id = item.Id }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="Submit" class="btn btn-default">Delete</button>
+                }
+               
+              
+            </td>
+        </tr>
 
+    }
 </table>
+    @*
+ @foreach (var item in Model)
+     {
+    <div class="media my-media">
+    <img class="pull-left media-object" src="@Url.Content(item.Item.MediaURL)" height="80" width="80">
+    <div class="media-body">
+    <p class="lead"> @item.Item.Name &nbsp; $@item.Item.Price  &nbsp; Count: &nbsp; @item.Count </p>
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </div>
+    </div>  
+ }*@
+<br />
+<br />

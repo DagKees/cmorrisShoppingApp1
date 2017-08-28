@@ -13,7 +13,7 @@ using cmorrisShoppingApp1.Models;
 namespace cmorrisShoppingApp1.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : Universal
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

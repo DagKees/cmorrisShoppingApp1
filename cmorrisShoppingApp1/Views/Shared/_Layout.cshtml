@@ -9,6 +9,7 @@ Layout = null;
     <meta charset="utf-8" />
     <link href="~/Assets/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Assets/Content/MyStyle/CustomStyleSheet.css" rel="stylesheet" />
+    <link href="~/Assets/Content/MyStyle/HoverEffectsCSS.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <style>
         body, h1, h2, h3, h4, h5, h6, .cwm-wide {
@@ -68,7 +69,7 @@ Layout = null;
 
                 <div class="cwm-container cwm-display-container cwm-padding-16">
                     <i onclick="nav_close()" class="fa fa-remove cwm-button cwm-display-topright"></i>
-                    <h3 class="cwm-wide"><b>LOGO</b></h3>
+                    <h3 class="cwm-wide"><b>Enchanted Watches</b></h3>
                 </div>
 
                 <div class="cwm-padding-64 cwm-large w3-text-grey" style="font-weight:bold">
@@ -112,16 +113,19 @@ Layout = null;
                 <!-- Top header -->
                 <header class="cwm-container cwm-xlarge" @*style="position:fixed; background-color: gainsboro; z-index: 3000; width: 100%"*@>
                     <p class="cwm-left">
-                        <div class="cwm-button cwm-left" onclick="nav_open()">☰</div>
+                        <div class="cwm-button cwm-left w3-text-black" onclick="nav_open()">☰</div>
                     </p>
-                    <p class="cwm-right">@Html.Partial("_LoginPartial")</p>       
-                    <p class="cwm-right">
-                        <i class="fa fa-shopping-cart cwm-margin-right cwm-tooltip">
-                            <span class="cwm-tooltiptext">0 items</span>
-                        </i>
-                        <i class="fa fa-search"></i>
-                    </p>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("index", "cartitems")" class="fa fa-shopping-cart w3-text-black"></a> <span>Items: @ViewBag.TotalCartItems </span>
+                    }
+                    else
+                    {
+                        <i class="fa fa-shopping-cart"></i> 
+                    }
 
+
+                    <p class="cwm-right">@Html.Partial("_LoginPartial")</p>  
                 </header>
          <!--      </div>  -->
                 <div class="cwm-overlay cwm-hide-large" onclick="nav_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
@@ -134,18 +138,18 @@ Layout = null;
                 <div class="cwm-display-container cwm-container">
                     <img src="~/Assets/Images/3.jpg" alt="Watch" style="width:100%">
                     <div class="cwm-display-topleft w3-text-white" style="padding:18px 48px">
-                        <h1 class="cwm-jumbo">New arrivals</h1>
-                        <h1>COLLECTION 2016</h1>
-                        <p><a href="#jeans" class="cwm-button w3-black cwm-padding-large cwm-large">SHOP NOW</a></p>
+                        <h1 class="cwm-jumbo">Enchanted Watches</h1>
+                        <h1>COLLECTION 2017</h1>
+                        <p><a href="@Url.Action("index", "items")" class="cwm-button w3-black cwm-padding-large cwm-large">SHOP NOW</a></p>
                     </div>
                 </div>
                 <div class="cwm-container w3-text-grey" id="jeans"></div>
 
 
 
-                <div>
+                @*<div>
                     <p>8 items</p>
-                </div>
+                </div>*@
 
                 <br /><br />
                 @RenderBody()
@@ -194,9 +198,9 @@ Layout = null;
                         <div class="col-md-4 cwm-justify">
                             <div>
                                 <h2>Store</h2>
-                                <p>&#169 Company Name</p>
+                                <p>&#169 Enchanted Watches</p>
                                 <p><i class="fa fa-fw fa-phone"></i> 0044123123</p>
-                                <p><i class="fa fa-fw fa-envelope"></i> ex@mail.com</p>
+                                <p><i class="fa fa-fw fa-envelope"></i> enchantedwatches@mail.com</p>
                             </div>
                             <div>
                                 <h2>We Accept</h2>
@@ -211,6 +215,7 @@ Layout = null;
                                 <i class="fa fa-linkedin w3-hover-opacity w3-large"></i>
                             </div>
                         </div>
+                        </div>                              <!--last added-->
                 </footer>
                 <!--Store Column END-->
                 <!--Contact & About & Store Box END-->
@@ -221,8 +226,7 @@ Layout = null;
 
                 <!--CopyRight Box END-->
 
-            </div>
-            <!--Contact & About & Store Box END-->
+
         </div>
         <!--Column 2 - Main Area Column END-->
     </div> <!--EndMainRow-->

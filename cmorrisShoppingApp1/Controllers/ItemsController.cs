@@ -8,13 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using cmorrisShoppingApp1.Models;
 using cmorrisShoppingApp1.Models.CodeFirst;
+using System.IO;
 
 namespace cmorrisShoppingApp1.Controllers
 {
-    public class ItemsController : Controller
+    public class ItemsController : Universal
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: Items
         public ActionResult Index()
         {
@@ -49,10 +49,23 @@ namespace cmorrisShoppingApp1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Price,MediaURL,Description,CreationDate,UpdatedDate")] Item item)
+        public ActionResult Create([Bind(Include = "Id,Name,Price,MediaURL,Description,CreationDate,UpdatedDate")] Item item, HttpPostedFileBase image)
         {
+            if(image != null && image.ContentLength > 0)
+            {
+                var ext = Path.GetExtension(image.FileName).ToLower();
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".bmp")
+                {
+                    ModelState.AddModelError("image", "Invalid Format");
+                }
+            }
             if (ModelState.IsValid)
             {
+                var filePath = "/assets/Images/";
+                var absPath = Server.MapPath("~" + filePath);
+                item.MediaURL = filePath + image.FileName;
+                image.SaveAs(Path.Combine(absPath, image.FileName));
+                item.CreationDate = System.DateTime.Now;
                 db.Items.Add(item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,10 +96,30 @@ namespace cmorrisShoppingApp1.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Price,MediaURL,Description,CreationDate,UpdatedDate")] Item item)
+        public ActionResult Edit([Bind(Include = "Id,Name,Price,MediaURL,Description,CreationDate,UpdatedDate")] Item item, string mediaURL, HttpPostedFileBase image)
         {
+            if (image.ContentLength > 0)
+            {
+                var ext = Path.GetExtension(image.FileName).ToLower();
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".gif" && ext != ".bmp")
+                {
+                    ModelState.AddModelError("image", "Invalid Format");
+                }
+            }
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    var filePath = "/assets/Images/";
+                    var absPath = Server.MapPath("~" + filePath);
+                    item.MediaURL = filePath + image.FileName;
+                    image.SaveAs(Path.Combine(absPath, image.FileName));
+                    item.UpdatedDate = System.DateTime.Now;
+                }
+                else
+                {
+                    item.MediaURL = mediaURL;
+                }
                 db.Entry(item).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -117,6 +150,8 @@ namespace cmorrisShoppingApp1.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Item item = db.Items.Find(id);
+            var absPath = Server.MapPath("~" + item.MediaURL);
+            System.IO.File.Delete(absPath);
             db.Items.Remove(item);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -8,71 +8,90 @@ using System.Web;
 using System.Web.Mvc;
 using cmorrisShoppingApp1.Models;
 using cmorrisShoppingApp1.Models.CodeFirst;
+using Microsoft.AspNet.Identity;
 
 namespace cmorrisShoppingApp1.Controllers
 {
-    public class CartItemsController : Controller
+    public class CartItemsController : Universal
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: CartItems
+        [Authorize]
         public ActionResult Index()
         {
-            return View(db.CartItems.ToList());
+            var user = db.Users.Find(User.Identity.GetUserId());
+            return View(user.CartItems.ToList());
         }
 
         // GET: CartItems/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CartItem cartItem = db.CartItems.Find(id);
-            if (cartItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cartItem);
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    CartItem cartItem = db.CartItems.Find(id);
+        //    if (cartItem == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(cartItem);
+        //}
 
         // GET: CartItems/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: CartItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        //// POST: CartItems/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ItemId,CustomerId,Count,CreationDate")] CartItem cartItem)
+        //public ActionResult Create([Bind(Include = "Id,ItemId,CustomerId,Count,CreationDate")] CartItem cartItem)
+        public ActionResult Create(int? itemId)
         {
-            if (ModelState.IsValid)
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (itemId != null || user != null)
             {
-                db.CartItems.Add(cartItem);
-                db.SaveChanges();
+                if (db.CartItems.Where(i => i.CustomerId == user.Id).Any(i => i.ItemId == itemId.Value))
+                {
+                    var existingCartItem = db.CartItems.Where(i => i.CustomerId == user.Id).FirstOrDefault(i => i.ItemId == itemId.Value);
+                    existingCartItem.Count += 1;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    CartItem cartItem = new CartItem();
+                    cartItem.Count = 1;
+                    cartItem.ItemId = itemId.Value;
+                    cartItem.CreationDate = System.DateTime.Now;
+                    cartItem.CustomerId = user.Id;
+                    db.CartItems.Add(cartItem);
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
-            return View(cartItem);
+            return View();
         }
 
-        // GET: CartItems/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CartItem cartItem = db.CartItems.Find(id);
-            if (cartItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cartItem);
-        }
+        //// GET: CartItems/Edit/5
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    CartItem cartItem = db.CartItems.Find(id);
+        //    if (cartItem == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(cartItem);
+        //}
 
         // POST: CartItems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -91,19 +110,19 @@ namespace cmorrisShoppingApp1.Controllers
         }
 
         // GET: CartItems/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CartItem cartItem = db.CartItems.Find(id);
-            if (cartItem == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cartItem);
-        }
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    CartItem cartItem = db.CartItems.Find(id);
+        //    if (cartItem == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(cartItem);
+        //}
 
         // POST: CartItems/Delete/5
         [HttpPost, ActionName("Delete")]
